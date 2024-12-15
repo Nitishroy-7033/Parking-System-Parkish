@@ -1,0 +1,10 @@
+const collegeLogo = 'Assets/Photos/collegeLogo1.png';
+const profilePath = "Assets/Photos/Profile.png";
+const AppName = "Parkish";
+const AppLogo = "Assets/Photos/applogo.png";
+const LeaderName = "Paramjit Singh Maan";
+const GoogleMapAPiKey = "AIzaSyAl5TtsfNcQL0iLuG_STqqYcW5zgEV19no";
+const bio = "Hello my name is Paramjit Singh Maan. This is the BPP project";
+const linkedin = "";
+const youtube = "";
+const github = "";

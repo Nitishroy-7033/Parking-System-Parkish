@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "559693950558",
+    "project_id": "parkish-4f2c5",
+    "storage_bucket": "parkish-4f2c5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559693950558:android:35dae2a5a3c9444d9ccecf",
+        "android_client_info": {
+          "package_name": "com.example.car_parking_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBshbFtFjSq6bJuV6c3qAX4GraPkIqYsD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
