@@ -2,6 +2,7 @@ import 'package:car_parking_system/Controller/AuthController.dart';
 import 'package:car_parking_system/Controller/ParkingController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -10,6 +11,16 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthController authController = Get.put(AuthController());
     ParkingController parkingController = Get.find();
+    String formatDateTime(String dateTimeString) {
+      try {
+        DateTime dateTime =
+            DateTime.parse(dateTimeString); // Convert string to DateTime
+        return DateFormat('dd MMM yyyy, hh:mm a').format(dateTime); // Format to "02:56 PM"
+      } catch (e) {
+        return "Invalid Date"; // Handle parsing errors
+      }
+    }
+
     // parkingController.personalBooking();
     return Scaffold(
       appBar: AppBar(
@@ -132,7 +143,7 @@ class ProfilePage extends StatelessWidget {
                                                       .labelSmall,
                                                 ),
                                                 Text(
-                                                  "${e.parkingFromTime}",
+                                                  "${formatDateTime(e.parkingFromTime!)}",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyMedium,
@@ -145,7 +156,7 @@ class ProfilePage extends StatelessWidget {
                                                       .labelSmall,
                                                 ),
                                                 Text(
-                                                  "${e.parkingToTime}",
+                                                   "${formatDateTime(e.parkingToTime!)}",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyMedium,

@@ -362,8 +362,8 @@ class BookingPage extends StatelessWidget {
                           vehicalNumberController.text,
                           slotId,
                           context,
-                          fromTime.value.toString(),
-                          toTime.value.toString(),
+                          fromTime.value,
+                          toTime.value,
                         );
                       },
                       child: Container(

@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 Future<dynamic> BookedPopup(BuildContext context, String slotId, String amount,
-    String time, String name, String vehicalNumber) {
+    String bookFrom, String bookTo, String name, String vehicalNumber) {
+  String formatDateTime(String dateTimeString) {
+    try {
+      DateTime dateTime =
+          DateTime.parse(dateTimeString); // Convert string to DateTime
+      return DateFormat('dd MMM yyyy, hh:mm a')
+          .format(dateTime); // Format to "02:56 PM"
+    } catch (e) {
+      return "Invalid Date"; // Handle parsing errors
+    }
+  }
+
   return Get.defaultDialog(
     barrierDismissible: false,
     title: "SLOT BOOKED",
@@ -64,11 +76,12 @@ Future<dynamic> BookedPopup(BuildContext context, String slotId, String amount,
             Icon(Icons.watch_later_outlined),
             SizedBox(width: 5),
             Text(
-              "Time : $time",
+              " ${formatDateTime(bookFrom)} - ${formatDateTime(bookTo)}",
               style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey),
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
             ),
           ],
         ),

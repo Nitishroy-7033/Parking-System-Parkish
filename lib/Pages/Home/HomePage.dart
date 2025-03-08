@@ -101,11 +101,11 @@ class HomePage extends StatelessWidget {
               onTap: () async {
                 await parkingController.personalBooking();
                 // Get.to(ProfilePage());
-                await parkingController.checkingCarisParkedOrNot();
-                parkingController.isYourCarParked.value
-                    ? Get.to(CctvPage())
-                    : Get.snackbar(
-                        "Unparked Vehicle ", "Please park your vehicle first");
+                // await parkingController.checkingCarisParkedOrNot();
+                // parkingController.isYourCarParked.value
+                //     ? Get.to(CctvPage())
+                //     : Get.snackbar(
+                //         "Unparked Vehicle ", "Please park your vehicle first");
               },
               child: Container(
                 padding: EdgeInsets.all(20),
