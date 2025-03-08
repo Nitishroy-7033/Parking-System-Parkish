@@ -1,7 +1,7 @@
-import 'package:car_parking_system/Components/ConfirmPop.dart';
 import 'package:car_parking_system/Controller/ParkingController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 class BookingPage extends StatelessWidget {
@@ -14,9 +14,8 @@ class BookingPage extends StatelessWidget {
     ParkingController parkingController = Get.put(ParkingController());
     TextEditingController nameController = TextEditingController();
     TextEditingController vehicalNumberController = TextEditingController();
-
-    RxString fromTime = "10:00 AM".obs;
-    RxString toTime = "10:30 AM".obs;
+    Rx<DateTime> fromTime = DateTime.now().obs;
+    Rx<DateTime> toTime = DateTime.now().add(const Duration(minutes: 30)).obs;
 
     return Scaffold(
       appBar: AppBar(
@@ -123,45 +122,154 @@ class BookingPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                // Slot Time Slider
                 const Row(
                   children: [
-                    Text("Choose Slot Time (in Minutes)"),
+                    Text("Select Parking Time "),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Text("From:"),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(), // ✅ Prevent past dates
+                          lastDate: DateTime(2100),
+                        );
+
+                        if (pickedDate != null) {
+                          TimeOfDay? pickedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (pickedTime != null) {
+                            // ✅ Combine selected date and time
+                            fromTime.value = DateTime(
+                              pickedDate.year,
+                              pickedDate.month,
+                              pickedDate.day,
+                              pickedTime.hour,
+                              pickedTime.minute,
+                            );
+
+                            // ✅ Update duration & amount if `toTime` is set
+                            if (toTime.value.isAfter(fromTime.value)) {
+                              Duration duration =
+                                  toTime.value.difference(fromTime.value);
+                              parkingController.time.value =
+                                  duration.inMinutes.toDouble();
+                              parkingController.amount.value =
+                                  (duration.inHours * 10)
+                                      .toDouble(); // ₹10 per hour
+                            }
+                          }
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Obx(
+                          () => Text(
+                            DateFormat('dd MMM yyyy, hh:mm a')
+                                .format(fromTime.value),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
-                Obx(
-                  () => Slider(
-                    thumbColor: Theme.of(context).colorScheme.primary,
-                    activeColor: Theme.of(context).colorScheme.primary,
-                    inactiveColor: Theme.of(context).colorScheme.surface,
-                    label: "${parkingController.time.value} m",
-                    value: parkingController.time.value,
-                    onChanged: (v) {
-                      parkingController.time.value = v;
-                      parkingController.amount.value = v * 1;
-                    },
-                    divisions: 6,
-                    min: 30,
-                    max: 210,
-                  ),
+                Row(
+                  children: [
+                    const Text("To:"),
+                  ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10, right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("30"),
-                      Text("60"),
-                      Text("90"),
-                      Text("120"),
-                      Text("150"),
-                      Text("180"),
-                      Text("210"),
-                    ],
-                  ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: fromTime
+                              .value, // ✅ Ensure "To" date is after "From" date
+                          firstDate: fromTime.value, // ✅ Prevent past dates
+                          lastDate: DateTime(2100),
+                        );
+
+                        if (pickedDate != null) {
+                          TimeOfDay? pickedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (pickedTime != null) {
+                            toTime.value = DateTime(
+                              pickedDate.year,
+                              pickedDate.month,
+                              pickedDate.day,
+                              pickedTime.hour,
+                              pickedTime.minute,
+                            );
+
+                            // ✅ Ensure `toTime` is after `fromTime`
+                            if (toTime.value.isAfter(fromTime.value)) {
+                              Duration duration =
+                                  toTime.value.difference(fromTime.value);
+                              parkingController.time.value =
+                                  duration.inMinutes.toDouble();
+                              parkingController.amount.value =
+                                  (duration.inHours * 10)
+                                      .toDouble(); // ₹10 per hour
+                            } else {
+                              Get.snackbar(
+                                "Invalid Time",
+                                "End time must be after start time",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.red.withOpacity(0.1),
+                                colorText: Colors.red,
+                              );
+                            }
+                          }
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Obx(
+                          () => Text(
+                            DateFormat('dd MMM yyyy, hh:mm a')
+                                .format(toTime.value),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
                 // Slot Name
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,7 +321,7 @@ class BookingPage extends StatelessWidget {
                             ),
                             Obx(
                               () => Text(
-                                parkingController.amount.value.toStringAsFixed(2),
+                                "₹${parkingController.amount.value.toStringAsFixed(1)}",
                                 style: TextStyle(
                                   fontSize: 40,
                                   fontWeight: FontWeight.w700,
@@ -227,7 +335,6 @@ class BookingPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        // Validate Name and Vehicle Number
                         if (nameController.text.isEmpty) {
                           Get.snackbar(
                             "Validation Error",
@@ -255,8 +362,8 @@ class BookingPage extends StatelessWidget {
                           vehicalNumberController.text,
                           slotId,
                           context,
-                          fromTime.value,
-                          toTime.value,
+                          fromTime.value.toString(),
+                          toTime.value.toString(),
                         );
                       },
                       child: Container(

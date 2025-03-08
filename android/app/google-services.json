@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "559693950558",
-    "project_id": "parkish-4f2c5",
-    "storage_bucket": "parkish-4f2c5.firebasestorage.app"
+    "project_number": "1077294109068",
+    "project_id": "smart-car-parking-system-f17ea",
+    "storage_bucket": "smart-car-parking-system-f17ea.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:559693950558:android:35dae2a5a3c9444d9ccecf",
+        "mobilesdk_app_id": "1:1077294109068:android:0dd08530a6b09b512e06a9",
         "android_client_info": {
           "package_name": "com.example.car_parking_system"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBshbFtFjSq6bJuV6c3qAX4GraPkIqYsD4"
+          "current_key": "AIzaSyD-UCwphHCesl1_NMacXh0Mu_XtQOy1TxU"
         }
       ],
       "services": {

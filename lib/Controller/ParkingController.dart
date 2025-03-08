@@ -24,7 +24,7 @@ class ParkingController extends GetxController {
   RxList<ParkingModel> yourBooking = RxList<ParkingModel>();
   RxBool isYourCarParked = false.obs;
   RxDouble time = 30.0.obs;
-  RxDouble amount = 30.0.obs;
+  RxDouble amount = 5.0.obs;
   RxBool isLoading = false.obs;
   Rx<ParkingModel> parkingSlot0 = ParkingModel().obs;
   Rx<ParkingModel> parkingSlot1 = ParkingModel().obs;
@@ -40,6 +40,7 @@ class ParkingController extends GetxController {
   @override
   void onInit() async {
     await getParkingInfo();
+    // await dataInit();
     super.onInit();
   }
 
