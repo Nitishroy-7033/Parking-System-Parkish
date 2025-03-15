@@ -357,6 +357,7 @@ class BookingPage extends StatelessWidget {
                         }
 
                         // Proceed to Booking
+                   
                         parkingController.bookSlot(
                           nameController.text,
                           vehicalNumberController.text,

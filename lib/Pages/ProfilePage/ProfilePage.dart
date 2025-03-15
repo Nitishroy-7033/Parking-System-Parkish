@@ -1,5 +1,6 @@
 import 'package:car_parking_system/Controller/AuthController.dart';
 import 'package:car_parking_system/Controller/ParkingController.dart';
+import 'package:car_parking_system/Pages/DemoPayment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -37,6 +38,12 @@ class ProfilePage extends StatelessWidget {
               authController.signOut();
             },
             icon: Icon(Icons.logout),
+          ),
+          IconButton(
+            onPressed: () {
+              Get.to(PaymentScreen());
+            },
+            icon: Icon(Icons.payment),
           ),
         ],
       ),

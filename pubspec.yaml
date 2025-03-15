@@ -53,6 +53,7 @@ dependencies:
   url_launcher: ^6.2.5
   shared_preferences: ^2.3.3
   intl: ^0.18.1
+  razorpay_flutter: ^1.4.0
 
 
 dev_dependencies:
